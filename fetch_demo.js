@@ -2,7 +2,20 @@
 using async/await and modern fetch() to sent HTTP requests and receive JSON data over the internet
 it essentially tells JS to sent a request to Render in the background to pause a function with await, 
 but let the rest of the website keep running smoothly, 
-when Render replies with the data, resume right here!*/ 
+when Render replies with the data, resume right here!
+
+in modern web dev, 
+-FastAPI holds the data (users, items, passwords) inside the db, 
+-while React displays the visuals (buttons, cards, menus) in the browser
+
+these two tech stacks talk to each other through fetch()
+
+TODAY'S GOAL
+Write a standalone JS script that 
+1. uses async/await and fetch() 
+2. to retrieve data from your live Railway FastAPI endpoint 
+3. and log the JSON payload to the console.
+*/ 
 
 /* 
 ========================================================================
@@ -38,10 +51,11 @@ const fetchMyLiveFastAPI = async () => {
     console.log("\n Connecting to live Render backend wait aaa...\n");
 
     try{
-        //fetch the OpenAPI documentation specifications from Render:
+        //1. fetch the OpenAPI documentation specifications from Render:
         const response = await fetch("https://fastapi-learning-sandbox.onrender.com/openapi.json");     //the website was mine from when I was learning FastAPI
-        const spec = await response.json();
-
+        const spec = await response.json();     //2. retrieve data: convert the raw HTTP response into a JavaScript object (JSON)
+        
+        //3. log the JSON payload to console:
         console.log("Connected to the live Cloud API wohoooo!");
         console.log("API Title:", spec.info.title);
         console.log("Available Endpoints:", Object.keys(spec.paths));   //extracts all the route names into an array
