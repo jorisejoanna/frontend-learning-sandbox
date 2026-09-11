@@ -154,7 +154,7 @@ function App() {
   const items = [
     {id: 1, title: "Razer Orochi V2", price: 199, isOffer: true, category: "Mice"},
     {id: 2, title: "Keychron V1", price: 379, isOffer: false, category: "Keyboards"},
-    {id: 3, title: "Monitor", price: 400, isOffer: false, category: "Monitors"},
+    {id: 3, title: "Dell 27-inch 4K", price: 1299, isOffer: true, category: "Monitors"},
   ];
 
   return (
