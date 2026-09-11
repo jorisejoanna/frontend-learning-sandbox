@@ -127,7 +127,8 @@ function App() {
 }
 */
 
-/* Day 23
+// Day 23
+/*
 function App() {
   const developerName = "Joanna";
   const status = "Building Full-Stack Applications";
@@ -148,9 +149,10 @@ function App() {
 */
 
 // Day 24
-function App() {
+function Day24App() { //changed to Day24App instead of App to be kept as notes!
 
   //sample data (mirrors our Neon PostgreSQL database items!!)
+  //hard coded list
   const items = [
     {id: 1, title: "Razer Orochi V2", price: 199, isOffer: true, category: "Mice"},
     {id: 2, title: "Keychron V1", price: 379, isOffer: false, category: "Keyboards"},
@@ -158,6 +160,7 @@ function App() {
   ];
 
   return (
+    
     <div style={{fontFamily: "sans-serif", maxWidth: "800px", margin: "0 auto", padding: "20px"}}> 
    
     {/*1. header with 'username' prop*/}
@@ -181,6 +184,132 @@ function App() {
 
     {/*3. footer with 'apiStatus' prop*/}
     <Footer apiStatus="fastapi_learning-sandbox.onrender.com (Live)"/>
+    </div>
+  );
+}
+
+// Day 25
+function App() {
+
+  /*1. React State: items list that React remembers
+  items - the current memory/data
+  setItems - the function you call whenever you want to change the memory, it can update the state variable and trigger React to render the component again*/
+  const [items, setItems] = useState([
+    {id: 1, title: "Razer Orochi V2", price: 199, isOffer: true, category: "Mice"},
+    {id: 2, title: "Keychron V1", price: 379, isOffer: false, category: "Keyboards"},
+    {id: 3, title: "Dell 27-inch 4K", price: 1299, isOffer: true, category: "Monitors"},
+  ]);
+
+  //2. form input states (remembers what you are typing)
+  const [newTitle, setNewTitle] = useState("");
+  const [newPrice, setNewPrice] = useState("");
+  const [newCategory, setNewCategory] = useState("Mice");
+  const [newIsOffer, setNewIsOffer] = useState(false);
+
+  //3. function: add new item
+  const handleAddItem = (e) => {
+    e.preventDefault(); //prevents the browser from reloading the page
+    if (!newTitle || !newPrice)
+      return alert("Please enter a title and price!");
+
+    const newItem = {
+      id: Date.now(), //generates a unqiue ID using current timestamp
+      title: newTitle,
+      price: Number(newPrice),
+      category: newCategory,
+      isOffer: newIsOffer,
+    };
+
+    //spread operator (from day 21!!): copy existing items and append the new one
+    setItems([...items, newItem]);
+
+    //reset the form inputs
+    setNewTitle("");
+    setNewPrice("");
+    setNewIsOffer(false);
+  };
+
+  //4. function: delete item (uses .filter() from day 21 also)
+  const handleDeleteItem = (idToDelete) => {
+    setItems(items.filter((item) => item.id !== idToDelete)); //keep every item EXCEPT the one that mathces idToDelete
+  };
+
+  return (
+    <div style={{fontFamily: "sans-serif", maxWidth: "800px", margin: "0 auto", padding: "20px"}}>
+    {/*1. header with 'username' prop*/}
+    <Header username="joanna@example.com" />
+    
+    {/*interactive add item form*/}
+    <section style={{background: "#f8fafc", padding: "20px", borderRadius: "8px", marginTop: "20px", border: "1px solid #e228f0"}}>
+      <h3 style={{margin: "0 0 15px 0"}}> ➕ Add New Peripheral</h3>
+      <form onSubmit={handleAddItem} style={{display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "center"}}>
+        
+        <input
+        type = "text"
+        placeholder = "Item title (e.g Airpods)"
+        value= {newTitle}
+        onChange={(e) => setNewTitle(e.target.value)}
+        style={{padding: "8px", borderRadius: "4px", border: "1px solid #cbd5e1"}}>
+        </input>
+        
+        <input
+        type = "number"
+        placeholder = "Price in RM"
+        value={newPrice}
+        onChange={(e) => setNewPrice(e.target.value)}
+        style={{padding: "8px", width: "110px", borderRadius: "4px", border: "1px solid #cbd5e1"}}>
+        </input>
+        
+        <select
+        value = {newCategory}
+        onChange={(e) => setNewCategory(e.target.value)}
+        style={{padding: "8px", borderRadius: "4px", border: "1px solid #cbd5e1"}}>
+
+        <option value="Mice">Mice</option>
+        <option value="Keyboards">Keyboards</option>
+        <option value="Monitors">Monitors</option>
+        <option value="Audio">Audio</option>
+
+        </select>
+
+        <label style={{fontSize: "14px", display: "flex", alignItems: "center", gap: "5px"}}>
+          <input
+          type = "checkbox"
+          checked = {newIsOffer}
+          onChange={(e) => setNewIsOffer(e.target.checked)}>
+          </input>
+          On Sale??
+        </label>
+
+        <button
+        type= "submit"
+        style={{background: "#2563eb", color: "white", border: "none", padding: "8px 16px", borderRadius: "4px", cursor: "pointer", fontWeight: "bold"}}>
+          Add to Inventory
+        </button>
+        </form>
+        </section>
+        
+        {/*items list, main content area*/}
+        <main style={{marginTop: "30px"}}>
+         <h3> Available Peripherals ({items.length})</h3>
+          <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
+           {items.map((item)=> (
+           <ItemCard
+          key={item.id}
+          id={item.id}
+          title={item.title}
+          price={item.price}
+          isOffer={item.isOffer}
+          category={item.category}
+          onDelete={handleDeleteItem} //pass delete function down as a prop
+          />
+        ))}
+      </div>
+    </main>
+
+    {/*3. footer with 'apiStatus' prop*/}
+    <Footer apiStatus="fastapi_learning-sandbox.onrender.com (Live)"/>
+
     </div>
   );
 }
