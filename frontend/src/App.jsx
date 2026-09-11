@@ -5,7 +5,12 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import './App.css'
 
-/*
+//importing the 3 child components
+import Header from './components/Header'
+import ItemCard from './components/ItemCard'
+import Footer from './components/Footer'
+
+/* Day 22
 function App() {
   const [count, setCount] = useState(0)
 
@@ -122,6 +127,7 @@ function App() {
 }
 */
 
+/* Day 23
 function App() {
   const developerName = "Joanna";
   const status = "Building Full-Stack Applications";
@@ -139,5 +145,44 @@ function App() {
     </div>
   );
 }
-export default App
+*/
+
+// Day 24
+function App() {
+
+  //sample data (mirrors our Neon PostgreSQL database items!!)
+  const items = [
+    {id: 1, title: "Razer Orochi V2", price: 199, isOffer: true, category: "Mice"},
+    {id: 2, title: "Keychron V1", price: 379, isOffer: false, category: "Keyboards"},
+    {id: 3, title: "Monitor", price: 400, isOffer: false, category: "Monitors"},
+  ];
+
+  return (
+    <div style={{fontFamily: "sans-serif", maxWidth: "800px", margin: "0 auto", padding: "20px"}}> 
+   
+    {/*1. header with 'username' prop*/}
+    <Header username="joanna@example.com" />
+    
+    {/*2. main content area: loop over items using .map() and render and ItemCard for eachh*/}
+    <main style={{marginTop: "30px"}}>
+      <h3> Available Peripherals ({items.length})</h3>
+      <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
+        {items.map((item)=> (
+          <ItemCard
+          key={item.id}
+          title={item.title}
+          price={item.price}
+          isOffer={item.isOffer}
+          category={item.category}
+          />
+        ))}
+      </div>
+    </main>
+
+    {/*3. footer with 'apiStatus' prop*/}
+    <Footer apiStatus="fastapi_learning-sandbox.onrender.com (Live)"/>
+    </div>
+  );
+}
+export default App;
 
