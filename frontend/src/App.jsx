@@ -810,7 +810,6 @@ const handleDeleteItem = async (idToDelete) => {
     
     {/*items list, main content area*/}
     <main style={{marginTop: "30px"}}>
-      <h3> Available Peripherals ({items.length})</h3>
       {/*sleeker tailwind badge header lesgaurr*/}
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold text-slate-100 flex items-center gap-2">Available Peripherals
