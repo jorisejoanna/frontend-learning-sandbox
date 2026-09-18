@@ -12,6 +12,8 @@ import Footer from './components/Footer'
 
 import ItemForm from './components/ItemForm'
 
+import {Analytics} from '@vercel/analytics/react';
+
 /* Day 22
 function App() {
   const [count, setCount] = useState(0)
@@ -852,6 +854,9 @@ const handleDeleteItem = async (idToDelete) => {
     </main>
 
     <Footer apiStatus="fastapi-learning-sendbox.onrender.com (Live)" />
+
+    {/*vercel analytics tracker*/}
+    <Analytics/>
   </div>
   </div>
  );
