@@ -1,0 +1,17 @@
+/*
+this is the bridge! it grabs the empty root div from index.html and injects my React code into it
+
+Day 33
+Renamed from main.jsx to main.tsx
+*/
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.tsx'
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)

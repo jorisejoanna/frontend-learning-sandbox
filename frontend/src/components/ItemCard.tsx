@@ -1,7 +1,12 @@
-//ItemCard component: reusable card that displays any product passed to it!!
-//accept prop: onToggleSale
-//add a "Toggle Sale" button next to the Delete button!
+/*ItemCard component: reusable card that displays any product passed to it!!
+-accept prop: onToggleSale
+-add a "Toggle Sale" button next to the Delete button!
 
+Day 33
+Renamed from ItemCard.jsx to ItemCard.tsx
+*/
+
+/*
 function oldItemCard({id, title, price, isOffer, category, onDelete, onToggleSale}) {
     return (
         <div style={{
@@ -20,11 +25,14 @@ function oldItemCard({id, title, price, isOffer, category, onDelete, onToggleSal
             <p style={{fontSize: "18px", fontWeight: "bold", margin: "8px 0", color: "#0f172a"}}> RM {price}</p>
 
             {isOffer && <span style={{background: "#ef4444", color: "white", padding: "2px 8px", borderRadius: "4px", fontSize: "12px", fontWeight: "bold"}}> ON SALEZZ!!!</span>}
+            */
 
+            
             {/*action buttons: UPDATE and DELETE */}
-            <div style={{display: "flex", gap: "8px", marginTop: "14px"}}>
+            //<div style={{display: "flex", gap: "8px", marginTop: "14px"}}>
 
             {/*Day 28 - UPDATE (Toggle Sale)*/}
+            /*
             <button
             onClick={() => onToggleSale(id, isOffer)}
             style={{
@@ -38,7 +46,8 @@ function oldItemCard({id, title, price, isOffer, category, onDelete, onToggleSal
                 fontSize: "11px",
                 fontWeight: "bold"
             }}>{isOffer ? "End Sale" : "Put on Sale"}</button>
-
+            */
+            
             {/*Day 24- adding delete button! calls onDelete with this item's id */}
             {/*<button
             onClick={() => Day24onDelete(id)}
@@ -59,6 +68,7 @@ function oldItemCard({id, title, price, isOffer, category, onDelete, onToggleSal
             </button>*/}
 
             {/*Day 28- DELETE */}
+            /*
             <button
             onClick={() => onDelete(id)}
             style={{
@@ -75,8 +85,19 @@ function oldItemCard({id, title, price, isOffer, category, onDelete, onToggleSal
         </div>
     );
 }
+*/
 
-function ItemCard({id, title, price, isOffer, category, onDelete, onToggleSale}) {
+interface ItemCardProps {
+    id: number;
+    title: string;
+    price: number;
+    isOffer: boolean;
+    category: string;
+    onDelete: (id:number) => void;
+    onToggleSale: (id:number, currentIsOffer: boolean) => void; 
+}
+
+function ItemCard({id, title, price, isOffer, category, onDelete, onToggleSale}: ItemCardProps) {
     return (
         <div
            className={`relative flex flex-col justify-between p-5 rounded-2xl border backdrop-blur-xl transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl w-64 ${
@@ -94,7 +115,7 @@ function ItemCard({id, title, price, isOffer, category, onDelete, onToggleSale})
                     )}
                 </div>
 
-                <h3 className="text-base font-semibold text-slate-100. line-clamp-2 leading-snug">{title}</h3>
+                <h3 className="text-base font-semibold text-slate-100 line-clamp-2 leading-snug">{title}</h3>
             </div>
 
             {/*bottom section: price & glass action buttons*/}

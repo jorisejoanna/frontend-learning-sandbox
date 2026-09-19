@@ -10,23 +10,32 @@ component - a JS function that returns visuals (JSX)
 props (short for properties lol) - arguments passed into the component
 
 ItemForm component: accepts 'onItemAdded' as a prop
+
+Day 33
+Renamed from ItemForm.jsx to ItemForm.tsx
 */
 
-import { useState } from "react";
+import { useState, FormEvent } from "react";
+import { Item, ItemCategory } from "../types/inventory";
 
-function ItemForm({onItemAdded}) {
+//1. define props contract- accepts onItemAdded function
+interface ItemFormProps {
+    onItemAdded: (newItem: Item) => void;
+}
 
-    //1. form input states
-    const [title, setTitle] = useState('');
-    const [price, setPrice] = useState('');
-    const [category, setCategory] = useState('laptops');
-    const [isOffer, setIsOffer] = useState(false);
+function ItemForm({onItemAdded}: ItemFormProps) {
 
-    //2. submitting state (prevents double submissions!)
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    //2. form input states with strict types
+    const [title, setTitle] = useState<string>('');
+    const [price, setPrice] = useState<string>('');
+    const [category, setCategory] = useState<ItemCategory>('laptops');
+    const [isOffer, setIsOffer] = useState<boolean>(false);
+
+    //2b. submitting state (prevents double submissions!)
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     //3. handle form submit
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if  (!title.trim() || !price) {
@@ -55,7 +64,7 @@ function ItemForm({onItemAdded}) {
             const createdProduct = await response.json();
 
             //format for our cards
-            const newItem = {
+            const newItem: Item = {
                 id: createdProduct.id || Date.now(),
                 title: createdProduct.title,
                 price: createdProduct.price,
@@ -114,7 +123,7 @@ function ItemForm({onItemAdded}) {
                 
                 <select
                 value = {category}
-                onChange={(e) => setCategory(e.target.value)}
+                onChange={(e) => setCategory(e.target.value as ItemCategory)}
                 disabled={isSubmitting}
                 style={{padding: "8px 12px", borderRadius: "4px", border: "1px solid #cbd5e1", flex: "1 1 200px"}}>
 
