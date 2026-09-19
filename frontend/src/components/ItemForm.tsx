@@ -17,6 +17,7 @@ Renamed from ItemForm.jsx to ItemForm.tsx
 
 import { useState, FormEvent } from "react";
 import { Item, ItemCategory } from "../types/inventory";
+import { createCloudItem } from "../services/api";
 
 //1. define props contract- accepts onItemAdded function
 interface ItemFormProps {
@@ -41,11 +42,8 @@ function ItemForm({onItemAdded}: ItemFormProps) {
         if  (!title.trim() || !price) {
             return alert("Pwease enter both a title and price ohh!!");
         }
-        
-        try {
-            setIsSubmitting(true);
-
             //send POST request to cloud API
+            /*
             const response = await fetch("https://dummyjson.com/products/add", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
@@ -63,6 +61,7 @@ function ItemForm({onItemAdded}: ItemFormProps) {
 
             const createdProduct = await response.json();
 
+            }
             //format for our cards
             const newItem: Item = {
                 id: createdProduct.id || Date.now(),
@@ -71,23 +70,35 @@ function ItemForm({onItemAdded}: ItemFormProps) {
                 category: createdProduct.category,
                 isOffer: isOffer,
             };
+            */
 
-            //notify parent component (App.jsx) to add this to the list
-            onItemAdded(newItem);
+        //day 34
+        try {
+            setIsSubmitting(true);
 
-            //reset the form
-            setTitle('');
-            setPrice('');
-            setIsOffer(false);
-            alert("AYYYY Product succesfully saved to cloud API");
+            //call our strongly-typed service function
+            const newItem = await createCloudItem({
+                title,
+                price: Number(price),
+                category,
+                isOffer,
+            });
+                //notify parent component (App.jsx) to add this to the list
+                onItemAdded(newItem);
 
-        }   catch(err) {
-            console.error("Submission failed sowwyy:", err);
-            alert("Failed to save item. Check console!");
-        }   finally {
-            setIsSubmitting(false);
-        }
+                //reset the form
+                setTitle('');
+                setPrice('');
+                setIsOffer(false);
+                alert("AYYYY Product succesfully saved to cloud API");
+            }   catch(err) {
+                console.error("Submission failed sowwyy:", err);
+                alert("Failed to save item. Check console!");
+            }   finally {
+                setIsSubmitting(false);
+            }
     };
+            
 
     return (
         <section style={{
@@ -163,5 +174,6 @@ function ItemForm({onItemAdded}: ItemFormProps) {
         </section>
     );
 }
+
 
 export default ItemForm;

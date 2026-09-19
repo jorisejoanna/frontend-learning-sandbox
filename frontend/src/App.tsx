@@ -23,6 +23,8 @@ import {Analytics} from '@vercel/analytics/react';
 
 import { Item } from './types/inventory'
 
+import { fetchInventoryItems, toggleCloudSale, deleteCloudItem } from './services/api';
+
 // Day 29
 function App() {
   const [items, setItems] = useState<Item[]>([]); //data state (starts as empty array)
@@ -35,15 +37,14 @@ function App() {
         setIsLoading(true);
         setError(null);
 
-
-        const response = await fetch ("https://dummyjson.com/products/category/laptops");
+        //const response = await fetch ("https://dummyjson.com/products/category/laptops");
         //const response = await fetch("https://fastapi-learning-sandbox.onrender.com/items");
 
-        if (!response.ok) {
+        /*if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        }*/
 
-        const data = await response.json();
+       //const data = await response.json(); //TypeScript thinks data is `any`
 
         /*//map backend database fields to frontend card props if needed:
         //(FastAPI returns [{id, title, price, is_offer,...}])
@@ -55,15 +56,19 @@ function App() {
           category: item.category || "General"
         }));*/
 
-        const formattedItems = data.products.map((item:any) => ({
+        /*const formattedItems = data.products.map((item:any) => ({
           id: item.id,
           title: item.title,
           price: Math.round(item.price * 4.4), //converts USD to MYR!
           isOffer: item.discountPercentage > 10,  //checked if the discount is more than 10%
           category: item.category
-        }));
+        }));*/
 
-        setItems(formattedItems);
+        //day 34
+        const items = await fetchInventoryItems();
+        setItems(items);
+
+        //setItems(formattedItems);
       } catch (err) {
         console.error("Failed to load inventory sowwyy:", err);
         setError("Could not load items from cloud server alamakk! (Render free tier may take ~45s to wake up!)");
@@ -81,6 +86,7 @@ const handleItemAdded = (newItem: Item) => {
 
 const handleDeleteItem = async (idToDelete: number) => {
   try {
+    /*
     const response = await fetch(`https://dummyjson.com/products/${idToDelete}`, {
       method: "DELETE",
     });
@@ -91,9 +97,13 @@ const handleDeleteItem = async (idToDelete: number) => {
 
     const deletedData = await response.json();
     console.log("Cloud confirmed deleted:", deletedData);
+    */
+
+    //day 34
+    await deleteCloudItem(idToDelete);
 
     setItems((prevItems) => prevItems.filter((item) => item.id !== idToDelete));
-    alert(`🗑️Item #${idToDelete} permanently deleted from cloud!`);
+    alert(`🗑️Item #${idToDelete} permanently deleted from cloud!`);    
 
   } catch (err) {
     console.error("Delete failed:", err);
@@ -106,6 +116,7 @@ const handleDeleteItem = async (idToDelete: number) => {
   const newSaleStatus = !currentIsOffer;
 
   try {
+    /*
     const response = await fetch(`https://dummyjson.com/products/${idToUpdate}`, {
       method: "PUT",
       headers: {"Content-Type": "application/json"},
@@ -120,7 +131,10 @@ const handleDeleteItem = async (idToDelete: number) => {
 
     const updatedData = await response.json();
     console.log("Cloud confirmed update:", updatedData);
+    */
 
+    //day 34
+    const newSaleStatus = await toggleCloudSale (idToUpdate, currentIsOffer);
     setItems((prevItems) =>
       prevItems.map((item) =>
         item.id === idToUpdate ? {...item, isOffer: newSaleStatus} : item
