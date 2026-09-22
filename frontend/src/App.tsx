@@ -25,6 +25,8 @@ import { Item } from './types/inventory'
 
 import { fetchInventoryItems, toggleCloudSale, deleteCloudItem } from './services/api';
 
+import toast, {Toaster} from 'react-hot-toast';
+
 // Day 29
 function App() {
   const [items, setItems] = useState<Item[]>([]); //data state (starts as empty array)
@@ -103,11 +105,11 @@ const handleDeleteItem = async (idToDelete: number) => {
     await deleteCloudItem(idToDelete);
 
     setItems((prevItems) => prevItems.filter((item) => item.id !== idToDelete));
-    alert(`🗑️Item #${idToDelete} permanently deleted from cloud!`);    
-
+    toast.success(`Item #${idToDelete} permanently deleted from cloud!`)
+    
   } catch (err) {
     console.error("Delete failed:", err);
-    alert("Ohh naurrr couldn't delete from cloud server:(");
+    toast.error("Ohh naurrr couldn't delete from cloud server:(");
   }
  };
 
@@ -141,9 +143,11 @@ const handleDeleteItem = async (idToDelete: number) => {
       )
     );
 
+    toast.success(newSaleStatus ? 'Put on sale!':'Sale ended!!')
+
   } catch (err) {
     console.error("Update failed:", err);
-    alert("Ohh naurrr couldn't update item on cloud server:(")
+    toast.error("Ohh naurrr couldn't update item on cloud server:(")
   }
  };
 
@@ -208,6 +212,17 @@ const handleDeleteItem = async (idToDelete: number) => {
 
     {/*vercel analytics tracker*/}
     <Analytics/>
+    <Toaster
+    position = "top-right"
+    toastOptions={{
+      style: {
+        background: '#0f172a',
+        color: '#f8fafc',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        backdropFilter: 'blur(12px)',
+      },
+    }}>
+    </Toaster>
   </div>
   </div>
  );

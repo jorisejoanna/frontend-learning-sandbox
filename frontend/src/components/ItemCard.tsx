@@ -87,6 +87,8 @@ function oldItemCard({id, title, price, isOffer, category, onDelete, onToggleSal
 }
 */
 
+import {Trash2, Tag} from 'lucide-react';
+
 interface ItemCardProps {
     id: number;
     title: string;
@@ -134,13 +136,16 @@ function ItemCard({id, title, price, isOffer, category, onDelete, onToggleSale}:
                             isOffer
                             ? 'bg-white/10 hover:bg-white/20 text-slate-300 border border-white/10'
                             : 'bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 border border-blue-500/30 hover:border-blue-400/50'
-                        }`}>{isOffer ? 'End Sale' : 'Put on Sale'}
+                        }`}>
+                            <Tag size={13} className="inline mr-1"></Tag>
+                            {isOffer ? 'End Sale' : 'Put on Sale'}
                         </button>
                         
                         {/*delete button*/}
                         <button
                         onClick={() => onDelete(id)}
-                        className="py-1.5 px-2.5 rounded-lg text-xs font-semibold bg-rose-500/20 hover:bg-rose-500/40 text-rose-300 border border-rose-500/30 hover:border-rose-400/50 transition-all cursor-pointer">Delete
+                        className="py-1.5 px-2.5 rounded-lg text-xs font-semibold bg-rose-500/20 hover:bg-rose-500/40 text-rose-300 border border-rose-500/30 hover:border-rose-400/50 transition-all cursor-pointer">
+                        <Trash2 size={13} className="inline mr-1"></Trash2>Delete
                         </button>
                     </div>
                 </div>

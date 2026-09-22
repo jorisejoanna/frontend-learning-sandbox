@@ -18,6 +18,8 @@ Renamed from ItemForm.jsx to ItemForm.tsx
 import { useState, FormEvent } from "react";
 import { Item, ItemCategory } from "../types/inventory";
 import { createCloudItem } from "../services/api";
+import toast from 'react-hot-toast';
+import { PlusCircle } from "lucide-react";
 
 //1. define props contract- accepts onItemAdded function
 interface ItemFormProps {
@@ -40,7 +42,7 @@ function ItemForm({onItemAdded}: ItemFormProps) {
         e.preventDefault();
 
         if  (!title.trim() || !price) {
-            return alert("Pwease enter both a title and price ohh!!");
+            return toast.error("Pwease enter both a title and price ohh!!");
         }
             //send POST request to cloud API
             /*
@@ -90,10 +92,10 @@ function ItemForm({onItemAdded}: ItemFormProps) {
                 setTitle('');
                 setPrice('');
                 setIsOffer(false);
-                alert("AYYYY Product succesfully saved to cloud API");
+                toast.success("AYYYY Product succesfully saved to cloud API");
             }   catch(err) {
                 console.error("Submission failed sowwyy:", err);
-                alert("Failed to save item. Check console!");
+                toast.error("Failed to save item. Check console!");
             }   finally {
                 setIsSubmitting(false);
             }
@@ -168,6 +170,7 @@ function ItemForm({onItemAdded}: ItemFormProps) {
                     fontWeight: "bold"
                     }}
                 >
+                    <PlusCircle size={16} className="inline mr-2"></PlusCircle>
                     {isSubmitting ? "Saving to Cloud..." : "Add to Inventory"}
                 </button>
             </form>
