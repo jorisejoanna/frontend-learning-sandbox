@@ -27,12 +27,26 @@ import { fetchInventoryItems, toggleCloudSale, deleteCloudItem } from './service
 
 import toast, {Toaster} from 'react-hot-toast';
 
+import LoginForm from './components/LoginForm';
+import { getStoredUser, logoutUser } from './services/auth';
+import { User } from './types/auth';
+
 // Day 29
 function App() {
   const [items, setItems] = useState<Item[]>([]); //data state (starts as empty array)
   const [isLoading, setIsLoading] = useState<boolean>(true); //loading state
   const [error, setError] = useState<string | null>(null); //error state
 
+  //auth states (auto-checks localStorage on mount)
+  const [currentUser, setCurrentUser] = useState<User | null>(() => getStoredUser());
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
+
+  const handleLogout = () => {
+    logoutUser();
+    setCurrentUser(null);
+    toast.success('Logged out sucessfully, BYE!!');
+  }
+ 
   useEffect(() => {
     const fetchInventory = async() => {
       try {
@@ -161,7 +175,11 @@ const handleDeleteItem = async (idToDelete: number) => {
     {/*main content*/}
     {/*1. header with 'username' prop*/}
     <div className="relative max-w-4xl mx-auto space-y-8"></div>
-    <Header username="joanna@example.com" />
+    <Header 
+    currentUser={currentUser}
+    onOpenLogin={() => setIsLoginModalOpen(true)}
+    onLogout={handleLogout}
+    />
 
     <ItemForm onItemAdded={handleItemAdded}></ItemForm>
     
@@ -223,6 +241,12 @@ const handleDeleteItem = async (idToDelete: number) => {
       },
     }}>
     </Toaster>
+
+    <LoginForm
+    isOpen={isLoginModalOpen}
+    onClose={() => setIsLoginModalOpen (false)}
+    onLoginSucess={(user) => setCurrentUser(user)}>
+    </LoginForm>
   </div>
   </div>
  );
