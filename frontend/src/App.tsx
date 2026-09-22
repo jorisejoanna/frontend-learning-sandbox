@@ -31,6 +31,8 @@ import LoginForm from './components/LoginForm';
 import { getStoredUser, logoutUser } from './services/auth';
 import { User } from './types/auth';
 
+import ProtectedRoute from './components/ProtectedRoute';
+
 // Day 29
 function App() {
   const [items, setItems] = useState<Item[]>([]); //data state (starts as empty array)
@@ -180,6 +182,9 @@ const handleDeleteItem = async (idToDelete: number) => {
     onOpenLogin={() => setIsLoginModalOpen(true)}
     onLogout={handleLogout}
     />
+    <ProtectedRoute
+    isAuthenticated={currentUser !== null}
+      onOpenLogin={() => setIsLoginModalOpen(true)}>
 
     <ItemForm onItemAdded={handleItemAdded}></ItemForm>
     
@@ -225,6 +230,8 @@ const handleDeleteItem = async (idToDelete: number) => {
       </div>
       )}
     </main>
+
+    </ProtectedRoute>
 
     <Footer apiStatus="fastapi-learning-sendbox.onrender.com (Live)" />
 
