@@ -1,6 +1,7 @@
 //centralised network service with strict return types
 
 import { Item, ItemCategory, NewItemInput } from "../types/inventory";
+import { getStoredToken } from "./auth";
 
 //1. raw product shape returned by DummyJSON API
 export interface DummyProduct{
@@ -26,6 +27,7 @@ const BASE_URL = 'https://dummyjson.com/products';
  * whatever type you ask for, apiFetch guarentees you get back in a Promise
  */
 
+/*
 export async function apiFetch<T>(url: string, options?: RequestInit): Promise<T> {
     const response = await fetch(url, options);
 
@@ -37,6 +39,35 @@ export async function apiFetch<T>(url: string, options?: RequestInit): Promise<T
     return data;
     
 }
+*/
+
+//Day 36
+export async function apiFetch<T>(url:string, options: RequestInit = {}): Promise<T> {
+    const token = getStoredToken();
+
+    //clone existing headers or create new ones
+    const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+        ...(options.headers as Record<string, string>),
+    };
+
+    //if user is logged in, attach Authorization: Bearer <token>!
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+    
+    const response = await fetch(url, {
+        ...options,
+        headers,
+    });
+
+    if (!response.ok) {
+        throw new Error(`API Error [${response.status}]: ${response.statusText}`);
+    }
+    const data: T = await response.json();
+    return data;
+    }
+    
 
 //-----------------
 //  CRUD HELPERS
