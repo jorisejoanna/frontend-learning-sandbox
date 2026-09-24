@@ -105,7 +105,7 @@ function ItemCard({id, title, price, isOffer, category, onDelete, onToggleSale}:
            className={`relative flex flex-col justify-between p-5 rounded-2xl border backdrop-blur-xl transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl w-64 ${
             isOffer
             ? 'bg-amber-500/10 hover:border-amber-400/60'
-            : 'bg-white/5 border-white/10 shadow-black/40 hover:border-white/20 hover:bg-white/[0.08]'
+            : 'bg-white/5 border-white/10 shadow-black/40 hover:border-white/20 hover:bg-white/8'
            }`}>
 
             {/*top section: category badge & title*/}

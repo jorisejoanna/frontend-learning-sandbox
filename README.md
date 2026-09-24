@@ -24,11 +24,40 @@ The frontend is deployed live on Vercel:
 - Interactive toast notifications for user feedback on actions
 - Responsive layout built with TailwindCSS
 
-## Project Structure
-- `frontend/src/App.tsx`: Main dashboard and application layout
-- `frontend/src/components/`: Reusable UI components (`ItemCard`, `ItemForm`, `Header`, `LoginForm`, `ProtectedRoute`)
-- `frontend/src/services/`: API client (`api.ts`) and authentication helper (`auth.ts`)
-- `frontend/src/types`: TypeScript definitions (`inventory.ts`, `auth.ts`)
+## Repository Structure
+```text
+frontend-learning-sandbox/
+    ├── frontend/                                                   #production React 19 Application
+    │   ├── src/
+    │   │   ├── components/                                         #reusable presentational & layout components
+    │   │   │   ├── Footer.tsx                                      #backend live health badge
+    │   │   │   ├── Header.tsx                                      #navbar with user status & auth buttons
+    │   │   │   ├── ItemCard.tsx                                    #product card with price, tags & actions
+    │   │   │   ├── ItemForm.tsx                                    #new item submission form
+    │   │   │   ├── LoginForm.tsx                                   #modal dialog for user authentication
+    │   │   │   └── ProtectedRoute.tsx                              #route guard with unauthorized lock screen
+    │   │   ├── services/                                           #centralized business logic & network layer
+    │   │   │   ├── api.ts                                          #generic apiFetch<T> wrapper & CRUD calls
+    │   │   │   └── auth.ts                                         #JWT storage & session helpers
+    │   │   ├── types/                                              #TypeScript type definitions & contracts
+    │   │   │   ├── auth.ts                                         #user credential & token interfaces
+    │   │   │   └── inventory.ts                                    #item, category & API response types
+    │   │   ├── App.css
+    │   │   ├── App.tsx                                             #central dashboard view & state coordinator
+    │   │   ├── index.css                                           #global styles & Tailwind directives
+    │   │   ├── main.tsx                                            #React root renderer
+    │   ├── index.html                                              #Single Page Application (SPA) HTML entry
+    │   ├── package-lock.json
+    │   ├── package.json                                            #frontend dependencies & run scripts
+    │   ├── tsconfig.json                                           #TypeScript compiler configuration
+    │   └── vite.config.js                                          #Vite bundler & Tailwind CSS v4 configuration
+    ├── es6_refresher.js                                            #ES6+ JavaScript foundations (array methods, destructuring)
+    ├── fetch_demo.js                                               #asynchronous JavaScript & Fetch API practice
+    ├── frontend-learning-sandbox_system_architecture.drawio.png    
+    ├── README.md                                                   #project documentation and architecture guide
+    ├── test_types.ts                                               #interface & union type validation
+    └── typescript_basics.ts                                        #TypeScript type system exercises
+```
 
 ## Local Development Setup
 
@@ -42,7 +71,7 @@ The frontend is deployed live on Vercel:
 1. Clone the repository:
    ```bash
    git clone https://github.com/jorisejoanna/frontend-learning-sandbox.git
-   cd frontend-learning-sandbox
+   cd frontend-learning-sandbox/frontend
    ```
 
 2. Install dependencies:
